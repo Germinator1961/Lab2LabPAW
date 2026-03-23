@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Lab2Lab</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="./static/css/mystyles.css">
+    <style>
+        .navbar {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 10px;
+        }
+        .sun-color {
+            color: #FFDF22;
+        }
+    </style>
+</head>
+
+<body class="has-text-centered">
+<div class="container">
+    <nav class="navbar is-info">
+        <div class="navbar-brand">
+            <a class="navbar-item">
+                <img src="{{url_for('static', filename='images/L2L_logo.png')}}" style="width:100px">
+            </a>
+            <div class="navbar-burger"
+                 data-target="navBackgroundDemo1">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <div class="navbar-start">
+            <a href="{{ url_for('views.index') }}" class="navbar-item">
+                Home
+            </a>
+            <a href="{{ url_for('views.about') }}" class="navbar-item">
+                Celestron
+            </a>
+            <a href="{{ url_for('views.about') }}" class="navbar-item">
+                CNC
+            </a>
+            <a href="{{ url_for('views.about') }}" class="navbar-item">
+                About
+            </a>
+        </div>
+        <div class="navbar-end">
+            <div class="navbar-item">
+
+                {% if current_user.is_authenticated %}
+                <!--a href="{{ url_for('views.profile') }}" class="navbar-item"-->
+                <button class="button is-success">
+                     <span class="icon">
+                        <i class="fab fa-solid fa-circle-user"></i>
+                     </span>
+                    <span>{{current_user.name}}</span>
+                </button>
+                <a href="{{ url_for('auth.logout') }}">
+                    <button class="button is-success">
+                     <span class="icon">
+                        <i class="fab fa-solid fa-arrow-right-from-bracket"></i>
+                     </span>
+                        <span>Logout</span>
+                    </button>
+                </a>
+                {% endif %}
+
+                {% if not current_user.is_authenticated %}
+                <a href="{{ url_for('auth.login') }}">
+                    <button class="button is-success">
+                     <span class="icon">
+                        <i class="fab fa-solid fa-arrow-right-to-bracket"></i>
+                     </span>
+                        <span>Login</span>
+                    </button>
+                </a>
+                <a href="{{ url_for('auth.signup') }}">
+                    <button class="button is-success">
+                     <span class="icon">
+                        <i class="fab fa-solid fa-user-plus"></i>
+                     </span>
+                        <span>Signup</span>
+                    </button>
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+</div>
+
+<div class="container has-text-centered">
+    {% block content %}
+    {% endblock %}
+</div>
+
+<div id="data-container" data-label="{{data}}"></div>
+<script>
+    // Create moon graph
+    const SVG_NS = "http://www.w3.org/2000/svg"
+    let svg_moon = document.getElementById("moon_graph");
+</script>
+<script src="./static/js/moon.js"></script>
+
+</body>
+
+</html>

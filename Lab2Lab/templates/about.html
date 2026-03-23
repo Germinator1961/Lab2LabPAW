@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+  <img src="{{url_for('static', filename='images/Lab2Lab_logo.png')}}" style="width:300px">
+</div>
+<h1 class="title">About Lab2Lab</h1>
+<h2 class="subtitle">Insert map, short description, etc.</h2>
+
+<div class="columns is-1-mobile is-0-tablet is-3-desktop is-8-widescreen is-2-fullhd">
+  <!-- Meteo -->
+  <div class="column is-narrow">
+    <div class="card" style="max-width: 220px; margin: 10 auto;">
+      <header class="card-header has-background-success">
+        <p class="card-header-title has-text-white">Montreal</p>
+        <span><p class="card-header-title has-text-white">{{local_time}}</p></span>
+      </header>
+      <div class="card-content">
+        <div class="columns">
+          <div class="column">
+            <div class="is-size-4">{{temperature}}°C</div>
+          </div>
+          <div class="column">
+            {% if code==0 %}
+              <div class="icon sun-color">
+                <i class="fas fa-solid fa-2x fa-sun" aria-hidden="true"></i>
+              </div>
+            {% elif code==1 %}
+              <span class="icon">
+                <i class="fas fa-solid fa-2x fa-cloud-sun" aria-hidden="true"></i>
+              </span>
+            {% elif code==2 %}
+              <span class="icon">
+                <i class="fas fa-solid fa-2x fa-cloud-rain" aria-hidden="true"></i>
+              </span>
+            {% elif code==3 %}
+              <span class="icon">
+                <i class="fas fa-solid fa-2x fa-cloud" aria-hidden="true"></i>
+              </span>
+            {% elif code in [61, 63, 65, 80, 81, 82] %}
+              <span class="icon">
+                <i class="fas fa-solid fa-2x fa-rain" aria-hidden="true"></i>
+              </span>
+            {% elif code in [71, 73, 75] %}
+              <span class="icon">
+                <i class="fas fa-solid fa-2x fa-snowflake" aria-hidden="true"></i>
+              </span>
+            {% else %}
+              <p>Code not implemented: {{code}}</p>
+            {% endif %}
+          </div>
+        </div>
+        <div class="content">Humidity: {{humidity}} %</div>
+        <div class="content">Pressure: {{pressure}} kPa</div>
+      </div>
+    </div>
+  </div>
+  <div class="modal" id="analemma">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+      <p class="image is-4by3">
+        <img src="./static/images/matplotlib_logo.png" alt="">
+      </p>
+    </div>
+    <button class="modal-close is-large" aria-label="close"></button>
+  </div>
+</div>
+{% endblock %}

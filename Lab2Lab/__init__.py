@@ -3,9 +3,11 @@ from flask_sqlalchemy import SQLAlchemy
 from os import path
 #from flask_login import LoginManager
 #from Lab2Lab.config import Config
+#from Lab2Lab.NetworkTools import get_local_ip, get_public_ip
+#import ngrok
 
-db = SQLAlchemy()
-DB_NAME = "l2l.db"
+#db = SQLAlchemy()
+#DB_NAME = "l2l.db"
 
 def create_app():
     app = Flask(__name__)
@@ -18,7 +20,7 @@ def create_app():
 
     from .views import views
     #from .auth import auth
-    #app.register_blueprint(views, url_prefix='/')
+    app.register_blueprint(views, url_prefix='/')
     #app.register_blueprint(auth, url_prefix='/')
 
     #from .models import User
@@ -34,7 +36,9 @@ def create_app():
 
     return app
 
+'''
 def create_database(app):
     if not path.exists('Lab2Lab/' + DB_NAME):
         with app.app_context():
             db.create_all()
+'''

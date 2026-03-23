@@ -5,4 +5,5 @@ from Lab2Lab import create_app
 app = create_app()
 
 if __name__ == '__main__':
+    print("IN IF NAME MAIN")
     app.run()

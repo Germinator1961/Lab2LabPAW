@@ -11,6 +11,7 @@ from flask import Blueprint, render_template
 #import json
 
 views = Blueprint('views', __name__)
+
 @views.route('/')
 def index():
     return "test in first introduction"

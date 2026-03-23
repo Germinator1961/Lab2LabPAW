@@ -1,0 +1,174 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+  <img src="{{url_for('static', filename='images/Lab2Lab_logo.png')}}" style="width:300px">
+</div>
+<h1 class="title">
+  Laboratoire Germinator
+</h1>
+<h2 class="subtitle">
+  Development and creation of various useful technologies.
+</h2>
+
+<div class="columns is-1-mobile is-0-tablet is-3-desktop is-8-widescreen is-2-fullhd">
+  <!-- Network -->
+  <div class="column is-narrow">
+    <div class="card" style="max-width: 200px; margin: 10 auto;">
+      <header class="card-header has-background-success">
+        <p class="card-header-title has-text-white">Network Info</p>
+    	<button class="card-header-icon" aria-label="more options">
+          <span class="icon has-text-white">
+            <i class="fas fa-solid fa-network-wired" aria-hidden="true"></i>
+          </span>
+        </button>
+      </header>
+      <div class="card-content">
+        <div class="content">Local IP: {{local_ip}}</div>
+        <div class="content">Public IP: {{public_ip}}</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sunrise Sunset TODO: Change icons to yellow-->
+  <div class="column is-narrow">
+    <div class="card" style="max-width: 220px; margin: 10 auto;">
+      <header class="card-header has-background-success">
+        <p class="card-header-title has-text-white">Sunrise / Sunset</p>
+        <button class="card-header-icon" aria-label="more options">
+          <span class="icon has-text-white">
+            <i class="fas fa-solid fa-sun" aria-hidden="true"></i>
+          </span>
+        </button>
+      </header>
+      <div class="card-content">
+        <div class="fixed-grid has-2-cols">
+          <div class="grid">
+            <div>Sunrise</div>
+            <div>Sunset</div>
+            <div>{{sunrise}}</div>
+            <div>{{sunset}}</div>
+            <div>Azimuth</div>
+            <div>Elevation</div>
+            <div>{{sun_azimuth}}</div>
+            <div>{{sun_altitude}}</div>
+          </div>
+        </div>
+        <small>updated: {{local_time}}</small>
+      </div>
+        <button class="button my-1 is-rounded is-primary" data-target="analemma">Sunrise/Sunset chart</button>
+        <button class="button my-1 is-rounded is-primary">Analemma</button>
+      </div>
+    </div>
+
+    <!-- Moon Info -->
+  <div class="column is-narrow">
+    <div class="card" style="max-width: 500px; margin: 5 auto;">
+      <header class="card-header has-background-success">
+        <p class="card-header-title has-text-white">Moon Info</p>
+        <button class="card-header-icon" aria-label="more options">
+          <span class="icon has-text-white">
+            <i class="fas fa-solid fa-moon" aria-hidden="true"></i>
+          </span>
+        </button>
+      </header>
+      <div class="card-content">
+        <div class="fixed-grid has-2-cols">
+          <div class="grid">
+            <div>Azimuth</div>
+            <div>Elevation</div>
+            <div>{{moon_azimuth}}</div>
+            <div>{{moon_altitude}}</div>
+          </div>
+        </div>
+        <svg id="moon_graph" width="400" height="100" viewBox="-300 -70 600 175">
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- Meteo -->
+  <div class="column is-narrow">
+    <div class="card" style="max-width: 220px; margin: 10 auto;">
+      <header class="card-header has-background-success">
+        <p class="card-header-title has-text-white">Montreal</p>
+        <span><p class="card-header-title has-text-white">{{local_time}}</p></span>
+      </header>
+      <div class="card-content">
+        <div class="columns">
+          <div class="column">
+            <div class="is-size-4">{{temperature}}°C</div>
+          </div>
+          <div class="column">
+            {% if code==0 %}
+              <div class="icon sun-color">
+                <i class="fas fa-solid fa-2x fa-sun" aria-hidden="true"></i>
+              </div>
+            {% elif code==1 %}
+              <span class="icon">
+                <i class="fas fa-solid fa-2x fa-cloud-sun" aria-hidden="true"></i>
+              </span>
+            {% elif code==2 %}
+              <span class="icon">
+                <i class="fas fa-solid fa-2x fa-cloud-rain" aria-hidden="true"></i>
+              </span>
+            {% elif code==3 %}
+              <span class="icon">
+                <i class="fas fa-solid fa-2x fa-cloud" aria-hidden="true"></i>
+              </span>
+            {% elif code in [56, 57] %}
+              <span class="icon">
+                <i class="fas fa-solid fa-2x fa-cloud-drizzle" aria-hidden="true"></i>
+              </span>
+            {% elif code in [61, 63, 65, 80, 81, 82] %}
+              <span class="icon">
+                <i class="fas fa-solid fa-2x fa-rain" aria-hidden="true"></i>
+              </span>
+            {% elif code in [66, 67] %}
+              <span class="icon">
+                <i class="fas fa-solid fa-2x fa-icicles" aria-hidden="true"></i>
+              </span>
+            {% elif code in [71, 73, 75] %}
+              <span class="icon">
+                <i class="fas fa-solid fa-2x fa-snowflake" aria-hidden="true"></i>
+              </span>
+            {% else %}
+              <p>Code not implemented: {{code}}</p>
+            {% endif %}
+          </div>
+        </div>
+        <div class="content">Humidity: {{humidity}} %</div>
+        <div class="content">Pressure: {{pressure}} kPa</div>
+      </div>
+    </div>
+
+  </div>
+  <!-- Analemma -->
+  <div class="modal" id="analemma">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+      <p class="image is-4by3">
+        <img src="./static/images/matplotlib_logo.png" alt="">
+      </p>
+    </div>
+    <button class="modal-close is-large" aria-label="close"></button>
+  </div>
+</div>
+{% endblock %}
+
+<!--
+Code	Description
+0	Clear sky
+1, 2, 3	Mainly clear, partly cloudy, and overcast
+45, 48	Fog and depositing rime fog
+51, 53, 55	Drizzle: Light, moderate, and dense intensity
+56, 57	Freezing Drizzle: Light and dense intensity
+61, 63, 65	Rain: Slight, moderate and heavy intensity
+66, 67	Freezing Rain: Light and heavy intensity
+71, 73, 75	Snow fall: Slight, moderate, and heavy intensity
+77	Snow grains
+80, 81, 82	Rain showers: Slight, moderate, and violent
+85, 86	Snow showers slight and heavy
+95 *	Thunderstorm: Slight or moderate
+96, 99 *	Thunderstorm with slight and heavy hail
+-->
