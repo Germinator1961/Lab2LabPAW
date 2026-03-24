@@ -35,7 +35,7 @@ def index():
     #home_page_variables.update({'code': meteo_data['weather_code']})
 
     #return render_template('index.html', title='Home', **home_page_variables, data=json.dumps(moon_data))
-    return "In home lab2lab"
+    return render_template('index.html', title='Home')
 
 '''
 @app.route('/about')
