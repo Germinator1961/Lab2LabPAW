@@ -8,11 +8,11 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    tz = ZoneInfo("America/Montreal")
-    aware_datetime = datetime.now(tz)
-    home_page_variables = {}
-    home_page_variables.update({'local_time': aware_datetime.strftime("%H:%M")})
-    home_page_variables.update({'today_date': aware_datetime.strftime("%H/%m/%d")})
+    #tz = ZoneInfo("America/Montreal")
+    #aware_datetime = datetime.now(tz)
+    #home_page_variables = {}
+    #home_page_variables.update({'local_time': aware_datetime.strftime("%H:%M")})
+    #home_page_variables.update({'today_date': aware_datetime.strftime("%H/%m/%d")})
 
     #home_page_variables.update({'local_ip': get_local_ip()})
     #home_page_variables.update({'public_ip': get_public_ip()})
