@@ -1,6 +1,6 @@
 # Modified from Lab2Lab260314 to work in pythonanywhere account
 from datetime import datetime
-from zoneinfo import ZoneInfo
+import zoneinfo
 from flask import Flask, render_template
 import json
 
@@ -9,11 +9,10 @@ app.config["DEBUG"] = True
 
 @app.route('/')
 def index():
-    #tz = ZoneInfo("America/Montreal")
-    #aware_datetime = datetime.now(tz)
-    #home_page_variables = {}
-    #home_page_variables.update({'local_time': aware_datetime.strftime("%H:%M")})
-    #home_page_variables.update({'today_date': aware_datetime.strftime("%H/%m/%d")})
+    aware_datetime = datetime.now().astimezone()
+    home_page_variables = {}
+    home_page_variables.update({'local_time': aware_datetime.strftime("%H:%M")})
+    home_page_variables.update({'today_date': aware_datetime.strftime("%H/%m/%d")})
 
     #home_page_variables.update({'local_ip': get_local_ip()})
     #home_page_variables.update({'public_ip': get_public_ip()})
@@ -36,7 +35,7 @@ def index():
     #home_page_variables.update({'code': meteo_data['weather_code']})
 
     #return render_template('index.html', title='Home', **home_page_variables, data=json.dumps(moon_data))
-    return render_template('main_page.html', title='Home')
+    return render_template('index.html', title='Home', **home_page_variables)
 
 '''
 @app.route('/about')
